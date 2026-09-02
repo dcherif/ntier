@@ -1,0 +1,117 @@
+# LEAP 3 – Book 5 Assignment
+
+## *The Art of Clear Thinking*
+
+**Cherif Debloc**
+
+## Suggestion 8 – Addressing Bugs and Vulnerabilities
+
+### Application Area
+
+In my DevSecOps role, I help integrate security throughout the software-development lifecycle. Applications and infrastructure are evaluated using static application security testing, software composition analysis, dynamic testing, container scanning, infrastructure-as-code scanning, and cloud-security monitoring.
+
+Although these tools provide valuable visibility, they can generate hundreds or thousands of findings across different applications and environments. The challenge is determining which vulnerabilities require immediate remediation and which can be mitigated, accepted, or scheduled for a later release.
+
+This situation connects with *The Art of Clear Thinking*. Just as pilots must filter large amounts of information and focus on what matters to the mission, DevSecOps teams must focus their limited resources on findings that create the greatest risk to the organization.
+
+### The Challenge
+
+A common practice is to prioritize vulnerabilities primarily according to the severity assigned by the scanning tool. However, severity does not always represent actual business risk.
+
+For example, a critical vulnerability may exist in an open-source package that is not reachable when the application runs. It may also be limited to an isolated development environment. Meanwhile, a high-severity misconfiguration involving an internet-facing service, exposed credential, or excessive cloud permission may provide a more realistic opportunity for an attacker.
+
+Treating all findings equally can overwhelm development teams, delay releases, create alert fatigue, and use engineering resources inefficiently. It may also cause teams to focus on vulnerability counts instead of meaningful risk reduction.
+
+### Tools and Techniques to Be Utilized
+
+The main technique I would apply from the book is the **Assess–Choose–Execute framework**.
+
+#### Assess
+
+Before deciding whether to block a release or require immediate remediation, the team should gather the relevant facts and separate them from assumptions.
+
+The assessment should determine:
+
+* Whether the finding is confirmed or a possible false positive.
+* Whether the vulnerable code is reachable during execution.
+* Whether the affected asset is internet-facing.
+* Whether a working public exploit is available.
+* Whether the vulnerability is being actively exploited.
+* Whether sensitive data or a critical business service could be affected.
+* Whether existing controls reduce the likelihood or impact.
+* How much effort and operational risk remediation would require.
+
+The team should also evaluate the complete attack path. A vulnerability becomes more consequential when it is connected to an exposed resource, excessive identity permissions, sensitive information, or an opportunity for lateral movement.
+
+#### Choose
+
+After assessing the evidence, the team should select the appropriate response:
+
+* **Remediate immediately:** Confirmed and exploitable risks affecting critical or externally accessible systems.
+* **Time-bound remediation:** Material risks that must be corrected within an established timeframe.
+* **Temporary mitigation:** Findings for which network controls, configuration changes, or monitoring can reduce exposure.
+* **Further investigation:** Findings that require additional evidence.
+* **Accept or defer:** Low-risk findings that can be addressed in a future release.
+
+The book’s discussion of **Power Laws** is relevant because a relatively small number of vulnerabilities and attack paths will normally account for a large portion of the organization’s actual exposure. Prioritizing these findings can provide greater security value than attempting to remediate everything simultaneously.
+
+I would also use inversion by asking:
+
+> If I were an attacker, how could I use this vulnerability to reach a critical system or compromise sensitive information?
+
+This encourages the team to consider realistic attack scenarios instead of reviewing each scanner result in isolation.
+
+#### Execute
+
+Once the team selects a response, the decision should be converted into an accountable remediation plan. Each significant finding should have:
+
+* A clearly identified owner.
+* A remediation or mitigation action.
+* An agreed completion date.
+* Evidence supporting the decision.
+* A documented exception and expiration date if the risk is accepted.
+* A method for validating the correction.
+* An escalation path for overdue work.
+
+CI/CD security gates should enforce the approved risk criteria. A release should be blocked when there is a confirmed and unacceptable risk without an effective mitigation—not simply because a scanner generated a large number of findings.
+
+The team should also reassess its decisions when new information becomes available. For example, a deferred vulnerability may become urgent if a public exploit is released or the affected application becomes externally accessible.
+
+### Expected Outcomes
+
+Applying this approach should produce the following outcomes:
+
+* Faster remediation of the most consequential vulnerabilities.
+* Better identification of realistic attack paths.
+* Fewer unnecessary software-release delays.
+* Reduced alert fatigue for development and security teams.
+* Better utilization of limited engineering resources.
+* Improved collaboration between security and development.
+* Clear remediation ownership and accountability.
+* More consistent and defensible risk decisions.
+* Greater confidence in automated security gates.
+* Improved overall security posture.
+
+The purpose is not to ignore vulnerabilities or lower security standards. It is to direct available resources toward the work that produces the greatest reduction in business risk.
+
+### Cultural Changes and Habits to Overcome
+
+The primary cultural change will be moving away from the belief that every vulnerability must be fixed immediately or that every critical scanner result must automatically stop a release.
+
+The following habits will need to change:
+
+* Teams must focus on business risk instead of vulnerability count alone.
+* Security decisions must consider technical context rather than relying only on severity.
+* Development, security, and operations must share responsibility for remediation.
+* Teams must accept that some low-risk findings can be addressed later.
+* Risk exceptions must have an accountable owner and expiration date.
+* Success should be measured by reduced exposure, not only by the number of findings closed.
+* Priorities must be reviewed as new information becomes available.
+
+Some teams may initially believe that risk-based prioritization means ignoring security issues. To overcome this concern, the process must be transparent, supported by evidence, and consistently applied. Deferred findings must remain documented and tracked until they are remediated or formally reevaluated.
+
+### The Learning
+
+The main lesson from *The Art of Clear Thinking* is that having more information does not automatically produce better decisions. Security tools can identify potential weaknesses, but the DevSecOps team must determine which weaknesses matter most.
+
+By applying Assess–Choose–Execute, Power Laws, inversion, and evidence-based prioritization, the team can focus on the vulnerabilities and attack paths that present the greatest risk. This will strengthen security while supporting the speed, collaboration, and adaptability expected from an effective DevSecOps program.
