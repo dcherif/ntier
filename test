@@ -1,158 +1,37 @@
-# LEAP 3 – Book 5 Assignment
+For my assignment, I focused on a challenge from our cloud security work: how we introduce security improvements while giving teams confidence in their operational and financial impact.
 
-## *The Art of Clear Thinking*
+1. Bringing the need for change to life
 
-**Cherif Debloc**
+The situation I chose involves enabling Wiz scanning across our cloud environments. The goal is to improve visibility into security risks. However, after onboarding, the team reported an unexpected increase in AWS costs, which raised questions about the impact of scanning.
 
-## Suggestion 8 – Addressing Bugs and Vulnerabilities
+What made this situation meaningful was that everyone supported improving security, but we needed a clearer understanding of the costs and a shared approach to moving forward.
 
-DevSecOps teams can be overwhelmed by the amount of information produced by security tools. We must learn to separate useful risk information from findings that do not require immediate attention. Not all bugs and vulnerabilities are equal, and limited resources should be directed toward the issues that create the greatest risk to the business.
+Three perspectives stood out in our discussions.
 
-## Background
+From the cloud team’s perspective, the concern was understanding what was generating the additional charges and how to keep those costs predictable.
 
-In my DevSecOps role, I support the integration of security controls into the software-development lifecycle. Applications are evaluated using multiple security capabilities, including static application security testing, software composition analysis, dynamic testing, container scanning, infrastructure-as-code scanning, and cloud-security monitoring.
+From the security perspective, the concern was maintaining visibility into important vulnerabilities, particularly in environments that are publicly accessible or handle sensitive information.
 
-Each tool evaluates a different part of the technology stack. Together, they can generate hundreds or even thousands of findings across multiple applications, development teams, and environments.
+From the leadership perspective, the need was a clear recommendation: what we should enable, what it would cost, and how we would know whether it was delivering value.
 
-The objective is to identify security weaknesses before they reach production without unnecessarily delaying software delivery. This requires balancing security requirements, engineering capacity, business priorities, and release deadlines.
+Looking at these perspectives helped me see the broader need for change. Providing technical information alone would not resolve the uncertainty. We needed a decision process that connected security coverage, cost, and business priorities.
 
-## The Challenge
+My approach has been to examine the available workload and volume information, gather clarification from Wiz, and work with the team on a controlled approach to re-enabling scanning.
 
-One of the challenges I have observed is the tendency to prioritize vulnerabilities mainly according to the severity assigned by a security tool. A finding labeled “critical” may immediately receive attention, while a high- or medium-severity issue may be postponed.
+The leadership lesson for me is that people can support the same goal and still have different concerns about how we achieve it. Listening to those concerns helps us build a plan that people can confidently support.
 
-However, the severity rating does not always represent the actual business risk.
+ 2. Turning a short-term win into a lasting habit
 
-For example, a critical vulnerability may exist in an open-source package that is included in an application but is not reachable during execution. It may also be present only in a development environment that is isolated from production. At the same time, a high-severity misconfiguration involving an internet-facing service, exposed credential, or excessive cloud permission may provide a more realistic path for an attacker.
+The short-term win I focused on was establishing a controlled process for re-enabling Wiz scanning while understanding its impact on AWS costs.
 
-Treating all findings equally can create several problems:
+We brought the cloud and security teams together, reviewed the available workload information, and clarified the scanning behavior with Wiz support. We then agreed on selected accounts for the initial rollout, with clear responsibilities for reviewing security coverage and monitoring costs.
 
-* Development teams become overwhelmed.
-* Critical releases may be delayed unnecessarily.
-* Security teams spend time reviewing low-risk findings.
-* Developers experience alert fatigue.
-* Findings with meaningful business impact may not receive attention quickly enough.
-* Security can be viewed as an obstacle instead of a business partner.
+I owned coordinating the effort and documenting the decisions. The cloud team supported cost validation, while the security team reviewed the scanning results. We captured the configuration, findings, and available billing evidence so we could make an informed decision about expanding the rollout.
 
-The DevSecOps team must therefore determine which findings matter most and use its limited resources wisely.
+One barrier we addressed was uncertainty about ownership and the steps to follow when costs differed from expectations. We clarified who would investigate, who would make configuration changes, and when the issue needed to be escalated.
 
-## Applying the Lessons from the Book
+To turn that initial progress into a lasting habit, I documented the agreed process in a runbook. It covered account selection, scanning settings, cost monitoring, ownership, and the steps for adjusting or pausing scanning if unexpected charges appeared. It also included a checklist for future rollouts so the team could follow a consistent process.
 
-The techniques I would use from *The Art of Clear Thinking* are the Assess–Choose–Execute framework, Power Laws, inversion, and prioritization.
+We incorporated a brief review of scanning coverage and costs into our existing cloud security discussions. That gave us a regular opportunity to identify issues, assign follow-up actions, and update the runbook as we learned more.
 
-## Assess
-
-The first step is to avoid reacting immediately to the scanner’s severity rating. The team should gather the available evidence and establish the actual context of the finding.
-
-The assessment should answer the following questions:
-
-* Is the vulnerability confirmed or potentially a false positive?
-* Is the affected application running in production?
-* Is the asset accessible from the internet?
-* Is the vulnerable code or package reachable during normal execution?
-* Is a known exploit publicly available?
-* Is the vulnerability known to be actively exploited?
-* Could it expose sensitive information or interrupt a critical service?
-* What permissions would an attacker need?
-* Are compensating security controls already in place?
-* What effort is required to remediate the issue?
-
-This step separates facts from assumptions.
-
-For example, the presence of a vulnerable package is a fact. The assumption that an attacker can exploit it must still be validated by checking how the package is used, whether the vulnerable function is reachable, and whether the affected workload is exposed.
-
-The team should also consider the complete attack path rather than reviewing the vulnerability in isolation. A vulnerability becomes more consequential when it is connected to an exposed resource, weak identity controls, sensitive data, or an opportunity for lateral movement.
-
-## Choose
-
-After completing the assessment, the team should select the most appropriate response.
-
-The findings can be organized into the following categories:
-
-* **Remediate immediately:** Confirmed and exploitable risks involving production, internet-facing systems, sensitive data, or critical business services.
-* **Remediate within an agreed timeframe:** Material findings that are not immediately exploitable but still require correction.
-* **Mitigate temporarily:** Findings where network controls, feature restrictions, monitoring, or configuration changes can reduce exposure until a permanent correction is available.
-* **Investigate further:** Findings for which the team does not yet have enough evidence to make a reliable decision.
-* **Accept or defer:** Low-risk findings that can be scheduled for a later release without creating unacceptable exposure.
-
-The book’s discussion of Power Laws is applicable because a relatively small number of findings will normally account for a large percentage of the organization’s actual exposure. Addressing this smaller group first can provide more security value than attempting to distribute resources equally across every vulnerability.
-
-Inversion can also improve the decision by asking:
-
-> If I were an attacker, how could I use this vulnerability to compromise the application or reach a critical business asset?
-
-This encourages the team to think beyond the scanner result and examine how multiple weaknesses could be combined.
-
-## Execute
-
-Once the team selects a response, the decision must be converted into an accountable remediation plan.
-
-Each significant finding should include:
-
-* A clearly assigned owner.
-* A remediation or mitigation action.
-* An agreed completion date.
-* Evidence supporting the prioritization.
-* A documented exception when remediation is deferred.
-* An expiration date for accepted risk.
-* A process for validating the correction.
-* An escalation path for overdue findings.
-
-Security policies can then be enforced through the CI/CD pipeline. A software release should be blocked when a finding presents an unacceptable and confirmed risk without an approved mitigation. It should not be blocked simply because a tool produced a large number of findings.
-
-The decisions should also be reviewed when circumstances change. A previously deferred finding may become urgent if a public exploit is released, the application becomes internet-facing, or threat intelligence indicates active exploitation.
-
-## Tools and Techniques to Be Utilized
-
-The approach can be supported by:
-
-* SAST tools for identifying source-code weaknesses.
-* SCA tools for evaluating open-source dependencies.
-* DAST tools for testing running applications.
-* Container-scanning tools for identifying image vulnerabilities.
-* Infrastructure-as-code scanning for detecting insecure configurations.
-* Cloud-security platforms for identifying exposure and attack paths.
-* CI/CD pipelines for automating security testing and release gates.
-* Jira or ServiceNow for assigning and tracking remediation.
-* Dashboards for monitoring risk, ownership, and remediation timelines.
-
-The tools provide the data, but the clear-thinking process determines how that data should be interpreted and acted upon.
-
-## Expected Outcomes
-
-Applying this approach should result in:
-
-* Faster remediation of the most consequential vulnerabilities.
-* Better identification of realistic attack paths.
-* Fewer unnecessary software-release delays.
-* Reduced alert fatigue for developers and security teams.
-* Better utilization of limited engineering resources.
-* Improved collaboration between security and development teams.
-* Clearer remediation ownership and accountability.
-* More consistent and defensible risk decisions.
-* Greater confidence in automated security gates.
-* A measurable reduction in business and technical risk.
-
-The objective is not to ignore vulnerabilities. It is to ensure that the organization receives the greatest possible security benefit from its available time, tools, and resources.
-
-## Cultural Changes and Habits to Overcome
-
-The primary cultural change will be moving away from the belief that every finding must be fixed immediately or that every critical scanner result must automatically prevent a release.
-
-The following changes will be necessary:
-
-* Focus on business risk instead of vulnerability count alone.
-* Evaluate technical context instead of relying exclusively on severity ratings.
-* Make security a shared responsibility across security, development, and operations.
-* Accept that some low-risk findings can be addressed later.
-* Require evidence when challenging or accepting a finding.
-* Assign an owner and expiration date to every risk exception.
-* Measure success by reduced exposure rather than only by the number of findings closed.
-* Regularly reassess priorities as new information becomes available.
-
-Some development teams may initially believe that security is adding another complicated process. Security teams may also be uncomfortable deferring findings because they fear that deferred work will never be completed. To address these concerns, the prioritization criteria must be transparent, repeatable, and supported by evidence.
-
-## The Learning
-
-The main lesson from *The Art of Clear Thinking* is that more information does not automatically produce better decisions. Security tools can identify a large number of potential weaknesses, but the DevSecOps team must determine which weaknesses are most likely to affect the organization.
-
-By applying Assess–Choose–Execute, Power Laws, inversion, and risk-based prioritization, the team can focus on the vulnerabilities and attack paths that matter most. This should improve the organization’s security posture without exhausting resources or unnecessarily slowing software delivery.
+The lasting value was that the team had a shared process it could repeat. My takeaway was that a short-term win becomes sustainable when we document what worked, establish clear ownership, and make the follow-through part of our normal routine.
