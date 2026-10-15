@@ -1,3 +1,38 @@
+For this exercise, I focused on our experience introducing Wiz scanning across our cloud environments. Our goal was to improve security visibility, but after onboarding, the team reported an unexpected increase in AWS costs. This created uncertainty about the financial impact of scanning and how we should move forward.
+
+During our discussions, three perspectives stood out.
+
+The cloud team wanted to understand what was generating the additional charges and how those costs could be controlled.
+
+The security team was concerned about gaps in vulnerability visibility while scanning was restricted, particularly for environments that were publicly accessible or handled sensitive information.
+
+Leadership needed a clear recommendation that explained the security benefit, the expected cost, and the conditions for safely expanding scanning.
+
+Those conversations changed how I understood the challenge. Everyone supported improving security, but each group needed different information to feel confident in the next step. We needed a shared process for evaluating the impact and making decisions.
+
+To help bring that need to life, I connected the technical discussion to the consequences for each group: unexpected spending for the cloud team, reduced visibility for security, and uncertainty for leadership.
+
+I reviewed the workload and disk-size information, gathered clarification from Wiz support, and worked with the team to define a controlled approach to re-enabling scanning. This gave us a clearer basis for discussing account selection, monitoring costs, and assigning responsibilities.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 For my assignment, I focused on a challenge from our cloud security work: how we introduce security improvements while giving teams confidence in their operational and financial impact.
 
 1. Bringing the need for change to life
